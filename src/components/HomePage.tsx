@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
+import FloatingHero from './FloatingHero';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -35,16 +36,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               From lead generation to customer support, we handle it all.
             </p>
 
-            {/* Custom AI Animation Placeholder */}
+            {/* Floating Hero Animation */}
             <div className="mb-12 flex justify-center">
-              <div className="w-80 h-40 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-2xl border border-cyan-500/30 flex items-center justify-center backdrop-blur-sm">
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full flex items-center justify-center animate-pulse">
-                    <Zap className="w-8 h-8 text-black" />
-                  </div>
-                  <p className="text-cyan-300 text-sm">Your AI Animation Here</p>
-                </div>
-              </div>
+              <FloatingHero />
             </div>
 
             {/* CTA Buttons */}
