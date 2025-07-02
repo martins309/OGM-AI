@@ -84,8 +84,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               },
               {
                 icon: Shield,
-                title: 'Enterprise Secure',
-                description: 'Bank-level security for your business data'
+                title: 'Secure By Design',
+                description: 'From lead capture to support, we use encrypted data and access controls to protect your business at every step'
               },
               {
                 icon: Clock,
