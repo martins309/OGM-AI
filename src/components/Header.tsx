@@ -25,7 +25,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
               <Brain className="w-6 h-6 text-black" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              ai.ogm
+              AI.OGM
             </span>
           </div>
 
