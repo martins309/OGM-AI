@@ -148,6 +148,186 @@
   }
 }
 
+/* Flame Ignition Sequence */
+@keyframes flame-ignition {
+  0% {
+    opacity: 0;
+    transform: scale(0.1) translateY(20px) translateZ(0);
+  }
+  15% {
+    opacity: 0.3;
+    transform: scale(0.4) translateY(10px) translateZ(0);
+  }
+  30% {
+    opacity: 0.6;
+    transform: scale(0.7) translateY(5px) translateZ(0);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.9) translateY(0px) translateZ(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0px) translateZ(0);
+  }
+}
+
+/* Flame Flickering Animations */
+@keyframes flame-flicker-1 {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) scaleY(1) scaleX(1) translateZ(0);
+    opacity: 0.8;
+  }
+  12% {
+    transform: translateY(-2px) translateX(1px) scaleY(1.05) scaleX(0.98) translateZ(0);
+    opacity: 0.9;
+  }
+  25% {
+    transform: translateY(-1px) translateX(-1px) scaleY(0.95) scaleX(1.02) translateZ(0);
+    opacity: 0.7;
+  }
+  37% {
+    transform: translateY(-3px) translateX(0.5px) scaleY(1.08) scaleX(0.96) translateZ(0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(-1px) translateX(-0.5px) scaleY(0.98) scaleX(1.01) translateZ(0);
+    opacity: 0.75;
+  }
+  62% {
+    transform: translateY(-2px) translateX(1.5px) scaleY(1.03) scaleX(0.99) translateZ(0);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateY(-0.5px) translateX(-1px) scaleY(0.97) scaleX(1.03) translateZ(0);
+    opacity: 0.8;
+  }
+  87% {
+    transform: translateY(-2.5px) translateX(0.8px) scaleY(1.06) scaleX(0.97) translateZ(0);
+    opacity: 0.85;
+  }
+}
+
+@keyframes flame-flicker-2 {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) scaleY(1) scaleX(1) translateZ(0);
+    opacity: 0.7;
+  }
+  15% {
+    transform: translateY(-1px) translateX(-1px) scaleY(1.02) scaleX(0.99) translateZ(0);
+    opacity: 0.8;
+  }
+  30% {
+    transform: translateY(-2px) translateX(1px) scaleY(0.96) scaleX(1.04) translateZ(0);
+    opacity: 0.6;
+  }
+  45% {
+    transform: translateY(-0.5px) translateX(-0.5px) scaleY(1.07) scaleX(0.95) translateZ(0);
+    opacity: 0.85;
+  }
+  60% {
+    transform: translateY(-1.5px) translateX(1.2px) scaleY(0.99) scaleX(1.02) translateZ(0);
+    opacity: 0.7;
+  }
+  75% {
+    transform: translateY(-2.5px) translateX(-0.8px) scaleY(1.04) scaleX(0.98) translateZ(0);
+    opacity: 0.8;
+  }
+  90% {
+    transform: translateY(-1px) translateX(0.5px) scaleY(0.98) scaleX(1.01) translateZ(0);
+    opacity: 0.75;
+  }
+}
+
+@keyframes flame-flicker-3 {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) scaleY(1) scaleX(1) translateZ(0);
+    opacity: 0.6;
+  }
+  20% {
+    transform: translateY(-1.5px) translateX(0.8px) scaleY(1.03) scaleX(0.97) translateZ(0);
+    opacity: 0.75;
+  }
+  40% {
+    transform: translateY(-0.8px) translateX(-1.2px) scaleY(0.94) scaleX(1.05) translateZ(0);
+    opacity: 0.5;
+  }
+  60% {
+    transform: translateY(-2.2px) translateX(0.3px) scaleY(1.09) scaleX(0.93) translateZ(0);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translateY(-1px) translateX(-0.7px) scaleY(0.97) scaleX(1.02) translateZ(0);
+    opacity: 0.65;
+  }
+}
+
+/* Flame Color Transitions */
+@keyframes flame-color-1 {
+  0%, 100% {
+    background: linear-gradient(to top, #ff6b35, #f7931e, #ffd23f);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  25% {
+    background: linear-gradient(to top, #ff4500, #ff6347, #ffa500);
+    filter: hue-rotate(5deg) brightness(1.1);
+  }
+  50% {
+    background: linear-gradient(to top, #ff7f50, #ff8c00, #ffff00);
+    filter: hue-rotate(-3deg) brightness(0.9);
+  }
+  75% {
+    background: linear-gradient(to top, #ff5722, #ff9800, #ffeb3b);
+    filter: hue-rotate(2deg) brightness(1.05);
+  }
+}
+
+@keyframes flame-color-2 {
+  0%, 100% {
+    background: linear-gradient(to top, #ff5722, #ff9800, #ffeb3b);
+    filter: hue-rotate(0deg) brightness(0.8);
+  }
+  33% {
+    background: linear-gradient(to top, #e65100, #f57c00, #fbc02d);
+    filter: hue-rotate(-5deg) brightness(0.9);
+  }
+  66% {
+    background: linear-gradient(to top, #ff6f00, #ffa000, #fff176);
+    filter: hue-rotate(3deg) brightness(0.85);
+  }
+}
+
+@keyframes flame-color-3 {
+  0%, 100% {
+    background: linear-gradient(to top, #d84315, #f57c00, #fff59d);
+    filter: hue-rotate(0deg) brightness(0.7);
+  }
+  50% {
+    background: linear-gradient(to top, #ff3d00, #ff8f00, #ffff8d);
+    filter: hue-rotate(-2deg) brightness(0.8);
+  }
+}
+
+/* Flame Heat Distortion */
+@keyframes heat-distortion {
+  0%, 100% {
+    transform: scaleX(1) scaleY(1) translateZ(0);
+    filter: blur(0px);
+  }
+  25% {
+    transform: scaleX(1.01) scaleY(0.99) translateZ(0);
+    filter: blur(0.5px);
+  }
+  50% {
+    transform: scaleX(0.99) scaleY(1.01) translateZ(0);
+    filter: blur(0.3px);
+  }
+  75% {
+    transform: scaleX(1.005) scaleY(0.995) translateZ(0);
+    filter: blur(0.4px);
+  }
+}
+
 /* Animation Classes */
 .animate-float-primary {
   animation: float-primary 7s ease-in-out infinite;
@@ -204,6 +384,32 @@
   will-change: transform;
 }
 
+/* Flame Animation Classes */
+.animate-flame-ignition {
+  animation: flame-ignition 2s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+.animate-flame-flicker-1 {
+  animation: flame-flicker-1 3.2s ease-in-out infinite, flame-color-1 4.1s ease-in-out infinite;
+  will-change: transform, opacity, background, filter;
+}
+
+.animate-flame-flicker-2 {
+  animation: flame-flicker-2 2.8s ease-in-out infinite, flame-color-2 3.7s ease-in-out infinite;
+  will-change: transform, opacity, background, filter;
+}
+
+.animate-flame-flicker-3 {
+  animation: flame-flicker-3 3.5s ease-in-out infinite, flame-color-3 4.3s ease-in-out infinite;
+  will-change: transform, opacity, background, filter;
+}
+
+.animate-heat-distortion {
+  animation: heat-distortion 1.8s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
 /* Performance Optimizations */
 .transform-gpu {
   transform: translateZ(0);
@@ -221,6 +427,12 @@
   .animate-orbit-reverse {
     animation-duration: 25s;
   }
+  
+  .animate-flame-flicker-1,
+  .animate-flame-flicker-2,
+  .animate-flame-flicker-3 {
+    animation-duration: 2.5s, 3.5s;
+  }
 }
 
 /* Reduced Motion Support */
@@ -235,7 +447,12 @@
   .animate-pulse-ring,
   .animate-pulse-ring-delayed,
   .animate-orbit,
-  .animate-orbit-reverse {
+  .animate-orbit-reverse,
+  .animate-flame-ignition,
+  .animate-flame-flicker-1,
+  .animate-flame-flicker-2,
+  .animate-flame-flicker-3,
+  .animate-heat-distortion {
     animation: none;
   }
 }
