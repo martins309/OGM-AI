@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { supabase, type ContactSubmission } from '../lib/supabase';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -10,12 +11,48 @@ export default function ContactPage() {
     message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const submission: ContactSubmission = {
+        name: formData.name,
+        email: formData.email,
+        company: formData.company || '',
+        service: formData.service || '',
+        message: formData.message
+      };
+
+      const { error: submitError } = await supabase
+        .from('contact_submissions')
+        .insert([submission]);
+
+      if (submitError) {
+        throw submitError;
+      }
+
+      // Reset form and show success message
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        service: '',
+        message: ''
+      });
+      setIsSubmitted(true);
+      setTimeout(() => setIsSubmitted(false), 5000);
+
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -132,6 +169,13 @@ export default function ContactPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
+                    {error && (
+                      <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center">
+                        <AlertCircle className="w-5 h-5 text-red-400 mr-3 flex-shrink-0" />
+                        <p className="text-red-400">{error}</p>
+                      </div>
+                    )}
+
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
@@ -144,7 +188,8 @@ export default function ContactPage() {
                           required
                           value={formData.name}
                           onChange={handleChange}
-                          className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
+                          disabled={isSubmitting}
+                          className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                           placeholder="Your name"
                         />
                       </div>
@@ -159,7 +204,8 @@ export default function ContactPage() {
                           required
                           value={formData.email}
                           onChange={handleChange}
-                          className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
+                          disabled={isSubmitting}
+                          className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                           placeholder="your@email.com"
                         />
                       </div>
@@ -175,7 +221,8 @@ export default function ContactPage() {
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         placeholder="Your company name"
                       />
                     </div>
@@ -189,7 +236,8 @@ export default function ContactPage() {
                         name="service"
                         value={formData.service}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <option value="">Select a service</option>
                         {services.map((service, index) => (
@@ -209,17 +257,28 @@ export default function ContactPage() {
                         required
                         value={formData.message}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all resize-none"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                         placeholder="Tell us about your automation needs..."
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center"
+                      disabled={isSubmitting}
+                      className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     >
-                      Send Message
-                      <Send className="ml-2 w-5 h-5" />
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin mr-2" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          Send Message
+                          <Send className="ml-2 w-5 h-5" />
+                        </>
+                      )}
                     </button>
                   </form>
                 )}
