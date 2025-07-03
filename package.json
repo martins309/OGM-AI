@@ -10,11 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@supabase/supabase-js": "^2.39.0",
-=======
     "@supabase/supabase-js": "^2.50.3",
->>>>>>> 89ce97b (connected to the data base and now to test it)
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
