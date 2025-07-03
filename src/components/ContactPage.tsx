@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase, type ContactSubmission } from '../lib/supabase';
 import emailjs from 'emailjs-com';
@@ -14,11 +14,80 @@ export default function ContactPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Bot protection states
+  const [honeypot, setHoneypot] = useState('');
+  const [formStartTime, setFormStartTime] = useState<number | null>(null);
+  const [mathAnswer, setMathAnswer] = useState('');
+  const [mathQuestion, setMathQuestion] = useState({ question: '', answer: 0 });
+
+  // Generate random math question on component mount
+  React.useEffect(() => {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    setMathQuestion({
+      question: `What is ${num1} + ${num2}?`,
+      answer: num1 + num2
+    });
+  }, []);
+
+  // Track when user first interacts with form
+  const handleFirstInteraction = () => {
+    if (!formStartTime) {
+      setFormStartTime(Date.now());
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
+
+    // Bot protection checks
+    
+    // 1. Honeypot check - if filled, it's likely a bot
+    if (honeypot.trim() !== '') {
+      console.log('Bot detected: honeypot filled');
+      setIsSubmitting(false);
+      return; // Silently reject
+    }
+
+    // 2. Time-based check - too fast submission indicates bot
+    if (formStartTime && (Date.now() - formStartTime) < 3000) {
+      setError('Please take a moment to review your message before submitting.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // 3. Math CAPTCHA check
+    if (parseInt(mathAnswer) !== mathQuestion.answer) {
+      setError('Please solve the math question correctly.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // 4. Basic content validation
+    if (formData.message.length < 10) {
+      setError('Please provide a more detailed message (at least 10 characters).');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // 5. Check for suspicious patterns
+    const suspiciousPatterns = [
+      /https?:\/\//gi, // URLs in message
+      /\b(viagra|casino|loan|crypto|bitcoin)\b/gi, // Common spam words
+      /(.)\1{4,}/gi, // Repeated characters (aaaaa)
+    ];
+
+    const messageContent = `${formData.name} ${formData.email} ${formData.message}`.toLowerCase();
+    const hasSuspiciousContent = suspiciousPatterns.some(pattern => pattern.test(messageContent));
+
+    if (hasSuspiciousContent) {
+      setError('Your message contains content that appears to be spam. Please revise and try again.');
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       // Save to Supabase database
@@ -65,6 +134,17 @@ export default function ContactPage() {
         service: '',
         message: ''
       });
+      setMathAnswer('');
+      setFormStartTime(null);
+      
+      // Generate new math question
+      const num1 = Math.floor(Math.random() * 10) + 1;
+      const num2 = Math.floor(Math.random() * 10) + 1;
+      setMathQuestion({
+        question: `What is ${num1} + ${num2}?`,
+        answer: num1 + num2
+      });
+      
       setIsSubmitted(true);
       setTimeout(() => setIsSubmitted(false), 5000);
 
@@ -77,6 +157,7 @@ export default function ContactPage() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    handleFirstInteraction();
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
@@ -190,6 +271,17 @@ export default function ContactPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Honeypot field - hidden from users */}
+                    <input
+                      type="text"
+                      name="website"
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)}
+                      style={{ display: 'none' }}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+
                     {error && (
                       <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center">
                         <AlertCircle className="w-5 h-5 text-red-400 mr-3 flex-shrink-0" />
@@ -281,6 +373,27 @@ export default function ContactPage() {
                         disabled={isSubmitting}
                         className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                         placeholder="Tell us about your automation needs..."
+                      />
+                    </div>
+
+                    {/* Math CAPTCHA */}
+                    <div>
+                      <label htmlFor="mathAnswer" className="block text-sm font-medium text-gray-300 mb-2">
+                        Security Question: {mathQuestion.question} *
+                      </label>
+                      <input
+                        type="number"
+                        id="mathAnswer"
+                        name="mathAnswer"
+                        required
+                        value={mathAnswer}
+                        onChange={(e) => {
+                          handleFirstInteraction();
+                          setMathAnswer(e.target.value);
+                        }}
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        placeholder="Enter the answer"
                       />
                     </div>
 
