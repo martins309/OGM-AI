@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase, type ContactSubmission } from '../lib/supabase';
+import emailjs from 'emailjs-com';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -20,6 +21,7 @@ export default function ContactPage() {
     setError(null);
 
     try {
+      // Save to Supabase database
       const submission: ContactSubmission = {
         name: formData.name,
         email: formData.email,
@@ -35,6 +37,25 @@ export default function ContactPage() {
       if (submitError) {
         throw submitError;
       }
+
+      // Send email notification using EmailJS
+      const emailParams = {
+        to_email: 'andrew@ogmmedia.com',
+        from_name: formData.name,
+        from_email: formData.email,
+        company: formData.company || 'Not specified',
+        service: formData.service || 'Not specified',
+        message: formData.message,
+        reply_to: formData.email
+      };
+
+      // Send email (replace with your EmailJS credentials)
+      await emailjs.send(
+        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
+        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
+        emailParams,
+        'YOUR_PUBLIC_KEY' // Replace with your EmailJS public key
+      );
 
       // Reset form and show success message
       setFormData({
@@ -108,7 +129,7 @@ export default function ContactPage() {
                   {
                     icon: Mail,
                     title: 'Email Us',
-                    content: 'hello@ai.ogm',
+                    content: 'andrew@ogmmedia.com',
                     gradient: 'from-cyan-400 to-blue-500'
                   },
                   {
