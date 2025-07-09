@@ -216,13 +216,13 @@ export default function ContactPage() {
                   {
                     icon: Phone,
                     title: 'Call Us',
-                    content: '+1 (555) 123-4567',
+                    content: '+1 (678) 718-7143',
                     gradient: 'from-blue-500 to-purple-500'
                   },
                   {
                     icon: MapPin,
                     title: 'Visit Us',
-                    content: 'San Francisco, CA',
+                    content: 'Atlanta, GA',
                     gradient: 'from-purple-500 to-cyan-500'
                   }
                 ].map((item, index) => (
@@ -288,8 +288,7 @@ export default function ContactPage() {
                         <p className="text-red-400">{error}</p>
                       </div>
                     )}
-
-                    <div className="grid md:grid-cols-2 gap-6">
+                   <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                           Full Name *
