@@ -1,26 +1,22 @@
-name: CI/CD - Test and Deploy to Vercel
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
-  build-and-deploy:
+  test:
     runs-on: ubuntu-latest
 
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+
     steps:
-      - name: ⬇️ Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: 🧰 Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 22.16.0
 
-      - name: 📦 Install Dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: ✅ Run Tests (Vitest)
-        run: npm run test -- --run  # or `vitest run` if you've set it up that way
-
+      - name: Run Vitest
+        run: npm run test -- --run

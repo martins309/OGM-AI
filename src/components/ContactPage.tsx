@@ -120,10 +120,10 @@ export default function ContactPage() {
 
       // Send email (replace with your EmailJS credentials)
       await emailjs.send(
-        'OGM_AI-1000', // Replace with your EmailJS service ID
-        'ogm_mailTing', // Replace with your EmailJS template ID
+        import.meta.env.VITE_EMAILJS_SERVICE_ID, // Replace with your EmailJS service ID
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, // Replace with your EmailJS template ID
         emailParams,
-        'a1LbJy-U5Sqgiy5X1' // Replace with your EmailJS public key
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY // Replace with your EmailJS public key
       );
 
       // Reset form and show success message
