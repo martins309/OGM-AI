@@ -31,7 +31,7 @@ export default function FloatingHero() {
       {/* Main Hero Image */}
       <div className="relative z-10 animate-float-primary">
         <img
-          src="/src/assets/images/finalHeroAi.png"
+          src="/finalHeroAi.png"
           alt="AI Automation Hero"
           className="w-80 h-80 object-contain drop-shadow-2xl transform-gpu"
           style={{
