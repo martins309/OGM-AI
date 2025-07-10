@@ -1,22 +1,39 @@
+name: CI Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     env:
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+      VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      VITE_SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 22.16.0
 
-      - name: Install Dependencies
+      - name: Print Node version (for debug)
+        run: node -v
+
+      - name: Install dependencies
         run: npm ci
 
-      - name: Run Vitest
-        run: npm run test -- --run
+      - name: Print environment variables (temporary)
+        run: |
+          echo "SUPABASE_URL: $VITE_SUPABASE_URL"
+          echo "SUPABASE_KEY: $VITE_SUPABASE_KEY"
+        # Remove this after debugging — avoid leaking secrets!
+
+      - name: Run Vitest with verbose output
+        run: npm run test -- --run --reporter verbose
