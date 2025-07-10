@@ -1,5 +1,5 @@
 import js from '@eslint/js';
-import globals from 'globals';
+import globals, { browser } from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
@@ -13,9 +13,11 @@ export default tseslint.config(
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'vitest': vitest
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -23,6 +25,20 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+    },
+
+  },
+
+  {
+    files: ['**/*.test.{ts,tsx}'], // only apply to test files
+    plugins: {
+      vitest,
+    },
+    languageOptions: {
+      globals: {
+        ...vitest.environments['vitest/globals'].globals,
+        ...browser, // merge Vitest + browser
+      },
     },
   }
 );
