@@ -24,4 +24,4 @@ jobs:
         run: npm ci
 
       - name: 🚀 Deploy to Vercel
-        run: npx vercel --prod --yes --token=${{ secrets.HEO_Token }}
+        run: npx vercel --prod --yes --token=${{ secrets.OGMAI_Token }}
