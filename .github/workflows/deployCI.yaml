@@ -33,7 +33,7 @@ jobs:
         run: |
           echo "SUPABASE_URL: $VITE_SUPABASE_URL"
           echo "SUPABASE_KEY: $VITE_SUPABASE_KEY"
-        # Remove this after debugging — avoid leaking secrets!
+       
 
       - name: Run Vitest with verbose output
         run: npm run test -- --run --reporter verbose
