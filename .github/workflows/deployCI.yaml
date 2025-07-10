@@ -24,5 +24,3 @@ jobs:
       - name: ✅ Run Tests (Vitest)
         run: npm run test -- --run  # or `vitest run` if you've set it up that way
 
-      - name: 🚀 Deploy to Vercel
-        run: npx vercel --prod --yes --token=${{ secrets.HEO_Token }}
