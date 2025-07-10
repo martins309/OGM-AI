@@ -1,25 +1,28 @@
-name: Deploy to Vercel 
+name: CI/CD - Test and Deploy to Vercel
 
-on: 
+on:
   push:
-    branches: 
+    branches:
       - main
 
 jobs:
-  deploy: 
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install Node.js
+      - name: 🧰 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 22.13.1
-      
-      - name: Install Dependencies 
+          node-version: 22.16.0
+
+      - name: 📦 Install Dependencies
         run: npm ci
 
-      - name: Deploy to Vercel
+      - name: ✅ Run Tests (Vitest)
+        run: npm run test -- --run  # or `vitest run` if you've set it up that way
+
+      - name: 🚀 Deploy to Vercel
         run: npx vercel --prod --yes --token=${{ secrets.HEO_Token }}
