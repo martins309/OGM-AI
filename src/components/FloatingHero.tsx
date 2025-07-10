@@ -1,4 +1,6 @@
 import React from 'react';
+import heroImage from '../assets/images/hero.jpg';
+
 
 export default function FloatingHero() {
   return (
@@ -31,7 +33,7 @@ export default function FloatingHero() {
       {/* Main Hero Image */}
       <div className="relative z-10 animate-float-primary">
         <img
-          src="/finalHeroAi.png"
+          src={heroImage}
           alt="AI Automation Hero"
           className="w-80 h-80 object-contain drop-shadow-2xl transform-gpu"
           style={{
