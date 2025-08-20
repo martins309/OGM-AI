@@ -24,7 +24,9 @@ function App() {
     <div className="min-h-screen bg-black">
       <Header currentPage={currentPage} onNavigate={setCurrentPage} />
       {renderPage()}
+      console.log("All Vite env vars:", import.meta.env);
     </div>
+    
   );
 }
 

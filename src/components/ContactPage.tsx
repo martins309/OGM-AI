@@ -125,6 +125,8 @@ export default function ContactPage() {
         emailParams,
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY // Replace with your EmailJS public key
       );
+      
+
 
       // Reset form and show success message
       setFormData({
