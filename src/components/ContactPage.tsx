@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase, type ContactSubmission } from '../lib/supabase';
 import emailjs from 'emailjs-com';
+import { env } from '../../env'
+
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -120,10 +122,10 @@ export default function ContactPage() {
 
       // Send email (replace with your EmailJS credentials)
       await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID, // Replace with your EmailJS service ID
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, // Replace with your EmailJS template ID
-        emailParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY // Replace with your EmailJS public key
+           env.serviceId,     // validated in env.js
+           env.templateId,    // validated in env.js
+           emailParams,
+           env.publicKey 
       );
       
 
