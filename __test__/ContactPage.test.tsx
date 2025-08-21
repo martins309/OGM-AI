@@ -3,6 +3,7 @@ import  ContactPage  from "../src/components/ContactPage"
 import { describe, it, expect } from "vitest"
 import { render, screen, fireEvent } from "@testing-library/react"
 import '@testing-library/jest-dom'
+import { env } from '../env'
 
 
 describe('Contact Form',() => {
@@ -32,5 +33,10 @@ describe('Contact Form',() => {
        
 
     })     
+
+    it('checks to see if the env vars are there', () => {
+        
+
+    })
    
 })
