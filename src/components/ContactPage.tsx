@@ -122,10 +122,10 @@ export default function ContactPage() {
 
       // Send email (replace with your EmailJS credentials)
       await emailjs.send(
-           env.serviceId,     // validated in env.js
-           env.templateId,    // validated in env.js
+           import.meta.env.VITE_EMAILJS_SERVICE_ID,     // validated in env.js
+           import.meta.env.VITE_EMAILJS_TEMPLATE_ID,    // validated in env.js
            emailParams,
-           env.publicKey 
+           import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
       
 
