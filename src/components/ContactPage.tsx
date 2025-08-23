@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase, type ContactSubmission } from '../lib/supabase';
 import emailjs from 'emailjs-com';
-import { env } from '../../env'
+
 
 
 export default function ContactPage() {
